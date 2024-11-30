@@ -93,7 +93,7 @@ body {
   }
 }
 .blog-menu.subscribe {
-  margin-top: 350px;
+  margin-top: 480px;
   font-size: 19px;
   position: relative;
 }
@@ -413,4 +413,23 @@ marquee span:before {
   .blog-is-sticky {
     display: none;
   }
+}
+
+/* Basic styles for the shake effect */
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+
+.page-number {
+  color: #000000;
+  padding: 10px 15px;
+  border-radius: 5px;
+  z-index: 100;
 }
