@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Security Game</title>
+<style>
+/* General Reset and Basic Styles */
+* {
+    outline: none;
+    box-sizing: border-box;
+}
+body {
+    background-color: #121418;
+    color: #e9e6e4;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 2em;
+    font-weight: 400;
+    height: 100vh;
+    margin: 0;
+}
+h1, p {
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #e9e6e4;
+}
+p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Game Container Styling */
+.game-container {
+    background-color: #e9e6e4;
+    color: #161419;
+    max-width: 800px;
+    width: 90%;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.game-container h1 {
+    color: #161419;
+}
+
+/* Emails Section */
+#emails {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 300px;
+}
+.email {
+    background: #161419;
+    color: #e9e6e4;
+    padding: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    flex: 1 1 calc(50% - 1rem);
+    box-sizing: border-box;
+    text-align: center;
+}
+.email:hover {
+    background-color: #3a3a3a;
+    transform: scale(1.05);
+}
+.email.wrong {
+    background-color: red !important;
+    animation: shake 0.5s;
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+/* Button Styling */
+button {
+    background-color: #161419;
+    color: #e9e6e4;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background-color: #3a3a3a;
+}
+
+/* Score and Message Styling */
+#score, #tries, #highScore {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+#congratsMessage, #highScoreMessage, #lostMessage {
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+    font-family: "Playfair Display", serif;
+    display: none;
+}
+</style>
+</head>
+<body>
+<div class="game-container" id="gameContainer">
+<h1>Stop the Phishing Attack!</h1>
+<p>Click on the suspicious emails to stop the phishing attack.</p>
+<div id="emails">
+<!-- Emails will be generated here by JavaScript -->
+</div>
+<button id="startButton">Start Game</button>
+<p id="score">Score: 0</p>
+<p id="tries">Tries: 3</p>
+<p id="highScore">High Score: 0</p>
+<p id="congratsMessage">Congratulations! You stopped all the phishing attacks!</p>
+<p id="highScoreMessage">New High Score!</p>
+<p id="lostMessage">You lost! Better luck next time!</p>
+</div>
+<script>
+    let highScore = 0;
+    let gameActive = false;
+    
+    document.getElementById('startButton').addEventListener('click', startGame);
+    
+    function startGame() {
+        gameActive = true;
+        const gameContainer = document.getElementById('gameContainer');
+        gameContainer.classList.add('small');
+    
+        const emailsContainer = document.getElementById('emails');
+        emailsContainer.innerHTML = '';
+        let score = 0;
+        let tries = 3;
+    
+        document.getElementById('score').innerText = 'Score: ' + score;
+        document.getElementById('tries').innerText = 'Tries: ' + tries;
+        document.getElementById('tries').style.display = 'block';
+        document.getElementById('congratsMessage').style.display = 'none';
+        document.getElementById('highScoreMessage').style.display = 'none';
+        document.getElementById('lostMessage').style.display = 'none';
+        document.getElementById('startButton').style.display = 'none';
+    
+        generateEmails(emailsContainer, score, tries);
+    }
+    
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    
+    function generateEmails(emailsContainer, score, tries) {
+        const emailTemplates = [
+            { text: 'Your account has been compromised. Click here to secure it.', phishing: true },
+            { text: 'Meeting at 3 PM. Don\'t forget to bring the report.', phishing: false },
+            { text: 'Congratulations! You have won a prize. Click to claim.', phishing: true },
+            { text: 'Team lunch tomorrow at 1 PM.', phishing: false },
+            { text: 'Update your payment information to avoid service interruption.', phishing: true },
+            { text: 'Your password has expired. Click here to reset it.', phishing: true },
+            { text: 'Project deadline extended to next week.', phishing: false },
+            { text: 'Verify your email address to continue using our service.', phishing: true },
+            { text: 'Happy Birthday! Enjoy your special day.', phishing: false },
+            { text: 'New security update available. Click to install.', phishing: true },
+            { text: 'Your invoice is ready. Click to view.', phishing: true },
+            { text: 'Join our webinar on cyber security.', phishing: false },
+            { text: 'Your subscription has been renewed.', phishing: false },
+            { text: 'Click here to update your profile.', phishing: true },
+            { text: 'Your package is out for delivery.', phishing: false },
+            { text: 'Your account has been locked. Click here to unlock it.', phishing: true },
+            { text: 'Reminder: Team meeting at 10 AM.', phishing: false },
+            { text: 'Urgent: Update your security settings.', phishing: true },
+            { text: 'Your payment was declined. Click here to resolve.', phishing: true },
+            { text: 'New message from HR. Click to read.', phishing: false }
+        ];
+    
+        // Shuffle emails to ensure randomness
+        shuffleArray(emailTemplates);
+    
+        // Select the first 10 shuffled emails
+        const emails = emailTemplates.slice(0, 10);
+    
+        emails.forEach(email => {
+            const emailDiv = document.createElement('div');
+            emailDiv.classList.add('email');
+            emailDiv.innerText = email.text;
+            emailDiv.addEventListener('click', () => {
+                if (!gameActive) return;
+                if (email.phishing) {
+                    score++;
+                    emailDiv.style.display = 'none';
+                    document.getElementById('score').innerText = 'Score: ' + score;
+                } else {
+                    tries--;
+                    document.getElementById('tries').innerText = 'Tries: ' + tries;
+                    emailDiv.classList.add('wrong');
+                    setTimeout(() => {
+                        emailDiv.classList.remove('wrong');
+                    }, 500);
+                    if (tries === 0) {
+                        endGame(false, score);
+                        return;
+                    }
+                }
+                if (emailsContainer.childElementCount === 1) {
+                    generateEmails(emailsContainer, score, tries);
+                }
+            });
+            emailsContainer.appendChild(emailDiv);
+        });
+    }
+    
+    function endGame(won, score) {
+        gameActive = false;
+        const gameContainer = document.getElementById('gameContainer');
+        gameContainer.classList.remove('small');
+    
+        document.getElementById('startButton').style.display = 'block';
+        document.getElementById('tries').style.display = 'none';
+    
+        if (won) {
+            document.getElementById('congratsMessage').style.display = 'block';
+            if (score > highScore) {
+                highScore = score;
+                document.getElementById('highScore').innerText = 'High Score: ' + highScore;
+                document.getElementById('highScoreMessage').style.display = 'block';
+            }
+        } else {
+            document.getElementById('lostMessage').style.display = 'block';
+            if (score > highScore) {
+                highScore = score;
+                document.getElementById('highScore').innerText = 'High Score: ' + highScore;
+                document.getElementById('highScoreMessage').style.display = 'block';
+            }
+        }
+    }
+    </script>
+    
+</body>
+</html>
