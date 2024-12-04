@@ -93,7 +93,7 @@ body {
   }
 }
 .blog-menu.subscribe {
-  margin-top: 570px;
+  margin-top: 520px;
   font-size: 19px;
   position: relative;
 }
@@ -500,5 +500,3 @@ marquee span:before {
   max-height: 70vh;
   overflow-y: auto;
 }
-
-
