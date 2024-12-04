@@ -93,7 +93,7 @@ body {
   }
 }
 .blog-menu.subscribe {
-  margin-top: 480px;
+  margin-top: 570px;
   font-size: 19px;
   position: relative;
 }
@@ -129,7 +129,7 @@ body {
   }
 }
 .blog-big__title {
-  font-size: 95px;
+  font-size: 90px;
   font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   letter-spacing: -5px;
@@ -500,6 +500,5 @@ marquee span:before {
   max-height: 70vh;
   overflow-y: auto;
 }
-
 
 
